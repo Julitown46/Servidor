@@ -43,7 +43,6 @@
     <div class="clearfix">
         <div style="float: left;width: 10%">idUsuario</div>
         <div style="float: left;width: 30%">Usuario</div>
-        <div style="float: left;width: 20%">Contrasena</div>
         <div style="float: left;width: 20%;overflow: hidden;">Rol</div>
     </div>
     <div class="clearfix">
@@ -59,7 +58,6 @@
     <div style="margin-top: 6px;" class="clearfix">
         <div style="float: left;width: 10%"><%= usuario.getIdUsuario()%></div>
         <div style="float: left;width: 30%"><%= usuario.getUsuario()%></div>
-        <div style="float: left;width: 20%"><%= usuario.getContrasena()%></div>
         <div style="float: left;width: 20%"><%= usuario.getRol()%></div>
         <div style="float: none;width: auto;overflow: hidden;">
             <form action="${pageContext.request.contextPath}/tienda/usuarios/<%= usuario.getIdUsuario()%>" style="display: inline;">

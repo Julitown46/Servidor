@@ -9,13 +9,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.iesbelen.dao.UsuarioDAO;
 import org.iesbelen.dao.UsuarioDAOImpl;
 import org.iesbelen.model.Usuario;
+import org.iesbelen.util.Util;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 
 @WebServlet(name = "usuariosServlet", value = "/tienda/usuarios/*")
 public class UsuarioServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -113,7 +118,13 @@ public class UsuarioServlet extends HttpServlet {
             String rol = request.getParameter("rol");
             Usuario nuevoUser= new Usuario();
             nuevoUser.setUsuario(usuario);
-            nuevoUser.setContrasena(contrasena);
+
+            try{
+                nuevoUser.setContrasena(Util.hashPassword(contrasena));
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+
             nuevoUser.setRol(rol);
 
             UsuarioDAO UsuarioDAO = new UsuarioDAOImpl();
@@ -153,7 +164,11 @@ public class UsuarioServlet extends HttpServlet {
         try {
             nuevoUser.setIdUsuario(id);
             nuevoUser.setUsuario(usuario);
-            nuevoUser.setContrasena(contrasena);
+            try{
+                nuevoUser.setContrasena(Util.hashPassword(contrasena));
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
             nuevoUser.setRol(rol);
             userDAO.update(nuevoUser);
         } catch (NumberFormatException nfe) {
