@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.iesbelen.dao.UsuarioDAO;
 import org.iesbelen.dao.UsuarioDAOImpl;
 import org.iesbelen.model.Usuario;
@@ -16,6 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 
 
 @WebServlet(name = "usuariosServlet", value = "/tienda/usuarios/*")
@@ -39,6 +41,8 @@ public class UsuarioServlet extends HttpServlet {
             request.setAttribute("listaUsuarios", userDAO.getAll());
             dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/usuarios.jsp");
 
+        } else if ("/login".equals(pathInfo)) {
+            dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/usuarios/login.jsp");
         } else {
             // GET
             // 		/usuarios/{id}
@@ -140,6 +144,41 @@ public class UsuarioServlet extends HttpServlet {
             //Dado que los forms de html sólo soportan method GET y POST utilizo parámetro oculto para indicar la operación de actulización DELETE.
             doDelete(request, response);
 
+        } else if(__method__ != null && "login".equalsIgnoreCase(__method__)) {
+            String usuario = request.getParameter("usuario");
+            String contrasena = request.getParameter("contrasena");
+            String contrasenaHasheada;
+            UsuarioDAO UsuDAO = new UsuarioDAOImpl();
+
+            Optional<Usuario> nuevo = UsuDAO.findByUsuario(usuario);
+
+            if (nuevo.isPresent()) {
+                try {
+                    contrasenaHasheada= Util.hashPassword(contrasena);
+                } catch (NoSuchAlgorithmException e) {
+                    throw new RuntimeException(e);
+                }
+
+                Usuario usu = nuevo.get();
+
+                if (usu.getContrasena().equals(contrasenaHasheada)) {
+                    HttpSession session=request.getSession(true);
+                    session.setAttribute("usuario-logado", usu);
+                    response.sendRedirect(request.getContextPath());
+                } else {
+                    request.setAttribute("error", "Contraseña no válida");
+                    request.getRequestDispatcher("/login.jsp").forward(request, response);
+                }
+            } else {
+                request.setAttribute("error", "Usuario no encontrado");
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+            }
+            return;
+        } else if(__method__ != null && "logout".equalsIgnoreCase(__method__)) {
+            HttpSession session=request.getSession();
+            session.invalidate();
+            response.sendRedirect(request.getContextPath());
+            return;
         } else {
             System.out.println("Opción POST no soportada.");
         }
@@ -147,7 +186,6 @@ public class UsuarioServlet extends HttpServlet {
         //response.sendRedirect("../../../tienda/productos");
         response.sendRedirect(request.getContextPath() + "/tienda/usuarios");
     }
-
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)

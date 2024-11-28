@@ -55,14 +55,6 @@
     </div>
     <div style="margin-top: 6px;" class="clearfix">
         <div style="float: left;width: 50%">
-            <label>Contrasena</label>
-        </div>
-        <div style="float: none;width: auto;overflow: hidden;">
-            <input value="<%= optUsu.get().getContrasena() %>" readonly="readonly"/>
-        </div>
-    </div>
-    <div style="margin-top: 6px;" class="clearfix">
-        <div style="float: left;width: 50%">
             <label>rol</label>
         </div>
         <div style="float: none;width: auto;overflow: hidden;">
