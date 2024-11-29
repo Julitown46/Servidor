@@ -19,7 +19,7 @@
     if (usu.isPresent()){
         %>
 <h3><%= usu.get().getUsuario()%></h3>
-<form action="${pageContext.request.contextPath}/index.jsp" method="post">
+<form action="${pageContext.request.contextPath}/tienda/usuarios/" method="post">
     <input type="hidden" name="__method__" value="logout"/>
     <input type="submit" value="no"/>
 </form>

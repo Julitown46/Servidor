@@ -145,34 +145,7 @@ public class UsuarioServlet extends HttpServlet {
             doDelete(request, response);
 
         } else if(__method__ != null && "login".equalsIgnoreCase(__method__)) {
-            String usuario = request.getParameter("usuario");
-            String contrasena = request.getParameter("contrasena");
-            String contrasenaHasheada;
-            UsuarioDAO UsuDAO = new UsuarioDAOImpl();
-
-            Optional<Usuario> nuevo = UsuDAO.findByUsuario(usuario);
-
-            if (nuevo.isPresent()) {
-                try {
-                    contrasenaHasheada= Util.hashPassword(contrasena);
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException(e);
-                }
-
-                Usuario usu = nuevo.get();
-
-                if (usu.getContrasena().equals(contrasenaHasheada)) {
-                    HttpSession session=request.getSession(true);
-                    session.setAttribute("usuario-logado", usu);
-                    response.sendRedirect(request.getContextPath());
-                } else {
-                    request.setAttribute("error", "Contraseña no válida");
-                    request.getRequestDispatcher("/login.jsp").forward(request, response);
-                }
-            } else {
-                request.setAttribute("error", "Usuario no encontrado");
-                request.getRequestDispatcher("/login.jsp").forward(request, response);
-            }
+            doLogin(request, response);
             return;
         } else if(__method__ != null && "logout".equalsIgnoreCase(__method__)) {
             HttpSession session=request.getSession();
@@ -185,6 +158,37 @@ public class UsuarioServlet extends HttpServlet {
 
         //response.sendRedirect("../../../tienda/productos");
         response.sendRedirect(request.getContextPath() + "/tienda/usuarios");
+    }
+
+    private void doLogin(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String usuario = request.getParameter("usuario");
+        String contrasena = request.getParameter("contrasena");
+        String contrasenaHasheada;
+        UsuarioDAO UsuDAO = new UsuarioDAOImpl();
+
+        Optional<Usuario> nuevo = UsuDAO.findByUsuario(usuario);
+
+        if (nuevo.isPresent()) {
+            try {
+                contrasenaHasheada= Util.hashPassword(contrasena);
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            }
+
+            Usuario usu = nuevo.get();
+
+            if (usu.getContrasena().equals(contrasenaHasheada)) {
+                HttpSession session=request.getSession(true);
+                session.setAttribute("usuario-logado", usu);
+                response.sendRedirect(request.getContextPath());
+            } else {
+                System.out.println("Contrasena no encontrado");
+                response.sendRedirect(request.getContextPath());
+            }
+        } else {
+            System.out.println("Usuario no encontrado");
+            response.sendRedirect(request.getContextPath());
+        }
     }
 
     @Override
