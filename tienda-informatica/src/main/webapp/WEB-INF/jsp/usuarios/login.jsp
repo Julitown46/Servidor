@@ -12,7 +12,7 @@
 </head>
 <body>
 <div id="contenedora" style="float:none; margin: 0 auto;width: 900px;" >
-  <form action="${pageContext.request.contextPath}/tienda/usuarios" method="post">
+  <form action="${pageContext.request.contextPath}/tienda/usuarios/login" method="post">
 <div style="margin-top: 6px;" class="clearfix">
   <div style="float: left;width: 50%">
     Usuario:
