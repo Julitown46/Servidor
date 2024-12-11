@@ -9,6 +9,8 @@ public class FabricanteDTO extends Fabricante {
         this.cantProductos = cantProductos;
     }
 
+    public FabricanteDTO() {}
+
     public Integer getCantProductos() {
         return cantProductos;
     }

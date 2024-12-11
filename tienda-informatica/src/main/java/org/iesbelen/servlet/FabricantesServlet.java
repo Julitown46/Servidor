@@ -35,21 +35,28 @@ public class FabricantesServlet extends HttpServlet {
 		RequestDispatcher dispatcher;
 				
 		String pathInfo = request.getPathInfo(); //
-			
+
 		if (pathInfo == null || "/".equals(pathInfo)) {
 			FabricanteDAO fabDAO = new FabricanteDAOImpl();
+			String ordenarPor = request.getParameter("ordenar-por");
+			String modoOrdenar = request.getParameter("modo-ordenar");
 
-			List<Fabricante> listaFabricantes = fabDAO.getAll();
-			List<FabricanteDTO> fabricanteDTOList = listaFabricantes.stream()
-					.map(fabricante -> new FabricanteDTO(fabricante, fabDAO.getCantProducto(fabricante.getIdFabricante()).orElse(0)))
-							.toList();
+//			GET
+//				/fabricantes/
+//				/fabricantes
 
-			System.out.println(fabricanteDTOList);
-			//GET 
-			//	/fabricantes/
-			//	/fabricantes
-			
-			request.setAttribute("listaFabricantes", fabricanteDTOList);
+			List<FabricanteDTO> listaFabricantesDTO;
+
+			if (ordenarPor != null && modoOrdenar != null) {
+				listaFabricantesDTO = fabDAO.getAllOrderDTO(ordenarPor, modoOrdenar);
+			} else {
+				listaFabricantesDTO = fabDAO.getAllDTO();
+			}
+
+
+
+			request.setAttribute("listaFabricantes", listaFabricantesDTO);
+
 			dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/fabricantes/fabricantes.jsp");
 			        		       
 		} else {

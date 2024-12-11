@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.iesbelen.model.Fabricante;
+import org.iesbelen.model.FabricanteDTO;
 
 public interface FabricanteDAO {
 		
@@ -14,4 +15,6 @@ public interface FabricanteDAO {
 	public void delete(int id);
 
 	public Optional<Integer> getCantProducto(int id);
+	public List<FabricanteDTO> getAllDTO();
+	public List<FabricanteDTO> getAllOrderDTO(String orden, String modo);
 }

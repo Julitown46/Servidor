@@ -49,6 +49,7 @@ public class UsuariosFilter  extends HttpFilter implements Filter {
                 || url.contains("/productos/crear")
                 || url.contains("/productos/editar")
                 || url.contains("/productos/borrar")
+                || url.endsWith("/productos")
                 || url.contains("/usuarios/crear")
                 || url.contains("/usuarios/editar")
                 || url.contains("/usuarios/borrar")
