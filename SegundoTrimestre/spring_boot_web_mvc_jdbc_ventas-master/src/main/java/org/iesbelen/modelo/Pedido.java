@@ -12,6 +12,6 @@ public class Pedido {
     private Integer id;
     private double total;
     private LocalDate fecha;
-    private Integer id_cliente;
+    private Long id_cliente;
     private Integer id_comercial;
 }

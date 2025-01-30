@@ -56,6 +56,21 @@
       <input th:field="*{comercial.comision}" readonly="readonly"/>
     </div>
   </div>
+  <div style="margin-top: 6px;" class="clearfix">
+    <div style="float: left;width: 50%">
+      <label th:text="#{comercial.detalle.total}"></label>
+    </div>
+    <div style="float: none;width: auto;overflow: hidden;">
+      <input th:value="*{cantidadPedidos}" readonly="readonly" />
+    </div>
+  </div>
+  <div style="margin-top: 6px;" class="clearfix">
+    <div style="float: left;width: 50%">
+      <label th:text="#{comercial.detalle.media}"></label>
+    </div>
+    <div style="float: none;width: auto;overflow: hidden;">
+      <input th:value="*{media} " readonly="readonly" />
+    </div>
   <div id="contenedor" style="float:none; margin: 0 auto;width: 95%;" >
     <div class="clearfix">
       <div style="float: left; width: 50%">

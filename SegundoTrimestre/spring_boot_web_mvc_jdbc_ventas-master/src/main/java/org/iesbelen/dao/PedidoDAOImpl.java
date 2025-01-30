@@ -23,7 +23,7 @@ public class PedidoDAOImpl implements PedidoDAO {
                 (rs, rowNum) -> new Pedido(rs.getInt("id"),
                         rs.getDouble("total"),
                         rs.getDate("fecha").toLocalDate(),
-                        rs.getInt("id_cliente"),
+                        rs.getLong("id_cliente"),
                         rs.getInt("id_comercial"))
         );
 
@@ -39,7 +39,7 @@ public class PedidoDAOImpl implements PedidoDAO {
                 (rs, rowNum) -> new Pedido(rs.getInt("id"),
                         rs.getDouble("total"),
                         rs.getDate("fecha").toLocalDate(),
-                        rs.getInt("id_cliente"),
+                        rs.getLong("id_cliente"),
                         rs.getInt("id_comercial"))
                 , idComercial
         );
@@ -56,7 +56,7 @@ public class PedidoDAOImpl implements PedidoDAO {
                 (rs, rowNum) -> new Pedido(rs.getInt("id"),
                         rs.getDouble("total"),
                         rs.getDate("fecha").toLocalDate(),
-                        rs.getInt("id_cliente"),
+                        rs.getLong("id_cliente"),
                         rs.getInt("id_comercial"))
                 , idCliente
         );
@@ -71,5 +71,10 @@ public class PedidoDAOImpl implements PedidoDAO {
         int rows = jdbcTemplate.update("DELETE FROM pedido WHERE id = ?", id);
 
         log.info("Delete de Pedido con {} registros eliminados.", rows);
+    }
+
+    @Override
+    public int getTotalPedidos() {
+        return jdbcTemplate.queryForObject("SELECT count(*) FROM pedido", Integer.class);
     }
 }
