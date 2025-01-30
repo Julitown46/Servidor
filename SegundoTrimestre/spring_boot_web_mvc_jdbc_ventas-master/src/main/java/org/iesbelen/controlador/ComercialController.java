@@ -1,5 +1,6 @@
 package org.iesbelen.controlador;
 
+import org.iesbelen.dto.PedidoDTO;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.service.ComercialService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,9 @@ public class ComercialController {
         Comercial comercial = comercialService.one(id);
         model.addAttribute("comercial", comercial);
 
+        List<PedidoDTO> pedidosDTO = comercialService.listPedidosDTO(id);
+        model.addAttribute("pedidosDTO", pedidosDTO);
         return "detalleComercial";
-
     }
 
     @GetMapping("/comercial/crear")
