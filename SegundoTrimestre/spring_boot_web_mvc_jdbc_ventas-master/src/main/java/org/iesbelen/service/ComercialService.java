@@ -58,17 +58,24 @@ public class ComercialService {
     }
 
     public List<PedidoDTO> listPedidosDTO(int idComercial) {
+
         List<Cliente> clientes = clienteDAO.getAll();
         List<Pedido> pedidos = pedidoDAO.getAllByComercial(idComercial);
+        pedidos.sort((a, b) -> b.getFecha().compareTo(a.getFecha()));
 
-        Map<Long, String> clienteMap = clientes.stream()
-                .collect(Collectors.toMap(Cliente::getId, c -> c.getNombre() + " " + c.getApellido1() +
-                        (c.getApellido2() != null ? " " + c.getApellido2() : "")));
+        List<PedidoDTO> pedidosDTO = new ArrayList<>();
 
-        return pedidos.stream()
-                .sorted(Comparator.comparing(Pedido::getFecha).reversed())
-                .map(p -> pedidoMapper.pedidoAPedidoDTO(p, clienteMap.getOrDefault(p.getId_cliente(), ""), ""))
-                .collect(Collectors.toList());
+        pedidos.forEach(p -> {
+            long idC = p.getId_cliente();
+            String nombre = clientes.stream()
+                    .filter(c -> c.getId() == idC)
+                    .map(c -> c.getNombre() + " " + c.getApellido1() + " " + (c.getApellido2() != null ? c.getApellido2() : ""))
+                    .findFirst().orElse("");
+
+            pedidosDTO.add(pedidoMapper.pedidoAPedidoDTO(p, nombre, ""));
+        });
+
+        return pedidosDTO;
     }
 
     public int getTotalPedidos() {
