@@ -2,12 +2,14 @@ package org.iesbelen.controlador;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.modelo.Comercial;
 import org.iesbelen.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -48,9 +50,11 @@ public class ClienteController {
 	}
 
 	@PostMapping("/cliente/crear")
-	public RedirectView submitCrear(@ModelAttribute("cliente") Cliente cliente) {
+	public RedirectView submitCrear(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
 
-		clienteService.newCliente(cliente);
+		if (!result.hasErrors()) {
+			clienteService.newCliente(cliente);
+		}
 
 		return new RedirectView("/cliente") ;
 
@@ -68,9 +72,11 @@ public class ClienteController {
 
 
 	@PostMapping("/cliente/editar/{id}")
-	public RedirectView submitEditar(@ModelAttribute("cliente") Cliente cliente) {
+	public RedirectView submitEditar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
 
-		clienteService.replaceCliente(cliente);
+		if (!result.hasErrors()) {
+			clienteService.replaceCliente(cliente);
+		}
 
 		return new RedirectView("/cliente");
 	}
