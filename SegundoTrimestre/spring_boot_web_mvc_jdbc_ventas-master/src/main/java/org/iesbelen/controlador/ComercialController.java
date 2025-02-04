@@ -28,7 +28,7 @@ public class ComercialController {
         List<Comercial> listaComercial =  comercialService.listAll();
         model.addAttribute("listaComerciales", listaComercial);
 
-        return "comerciales";
+        return "comerciales/comerciales";
     }
 
     @GetMapping("/comercial/{id}")
@@ -45,7 +45,7 @@ public class ComercialController {
 
         double media = comercialService.getPorcentajePedidos(id);
         model.addAttribute("media", media);
-        return "detalleComercial";
+        return "comerciales/detalleComercial";
     }
 
     @GetMapping("/comercial/crear")
@@ -54,18 +54,19 @@ public class ComercialController {
         Comercial comercial = new Comercial();
         model.addAttribute("comercial", comercial);
 
-        return "crearComercial";
+        return "comerciales/crearComercial";
 
     }
 
     @PostMapping("/comercial/crear")
-    public RedirectView submitCrear(@Valid @ModelAttribute("comercial") Comercial comercial, BindingResult result) {
+    public String submitCrear(@Valid @ModelAttribute("comercial") Comercial comercial, BindingResult result) {
 
         if (!result.hasErrors()) {
             comercialService.newComercial(comercial);
+            return "redirect:/comercial";
         }
 
-        return new RedirectView("/comercial") ;
+        return "comerciales/crearComercial";
 
     }
 
@@ -75,26 +76,27 @@ public class ComercialController {
         Comercial comercial = comercialService.one(id);
         model.addAttribute("comercial", comercial);
 
-        return "editarComercial";
+        return "comerciales/editarComercial";
 
     }
 
 
     @PostMapping("/comercial/editar/{id}")
-    public RedirectView submitEditar(@Valid @ModelAttribute("comercial") Comercial comercial, BindingResult result) {
+    public String submitEditar(@Valid @ModelAttribute("comercial") Comercial comercial, BindingResult result) {
 
         if (!result.hasErrors()) {
             comercialService.replaceComercial(comercial);
+            return "redirect:/comercial";
         }
 
-        return new RedirectView("/comercial");
+        return "comerciales/editarComercial";
     }
 
     @PostMapping("/comercial/borrar/{id}")
-    public RedirectView submitBorrar(@PathVariable Integer id) {
+    public String submitBorrar(@PathVariable Integer id) {
 
         comercialService.deleteComercial(id);
 
-        return new RedirectView("/comercial");
+        return "redirect:/comercial";
     }
 }

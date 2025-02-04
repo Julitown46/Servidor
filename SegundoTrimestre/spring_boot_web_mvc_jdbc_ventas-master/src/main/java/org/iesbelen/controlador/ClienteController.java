@@ -4,7 +4,6 @@ import java.util.List;
 
 import jakarta.validation.Valid;
 import org.iesbelen.modelo.Cliente;
-import org.iesbelen.modelo.Comercial;
 import org.iesbelen.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,7 @@ public class ClienteController {
 		List<Cliente> listaClientes =  clienteService.listAll();
 		model.addAttribute("listaClientes", listaClientes);
 				
-		return "clientes";
+		return "clientes/clientes";
 		
 	}
 
@@ -35,7 +34,7 @@ public class ClienteController {
 		Cliente cliente = clienteService.one(id);
 		model.addAttribute("cliente", cliente);
 
-		return "detalleCliente";
+		return "clientes/detalleCliente";
 
 	}
 
@@ -45,19 +44,19 @@ public class ClienteController {
 		Cliente cliente = new Cliente();
 		model.addAttribute("cliente", cliente);
 
-		return "crearCliente";
+		return "clientes/crearCliente";
 
 	}
 
 	@PostMapping("/cliente/crear")
-	public RedirectView submitCrear(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
+	public String submitCrear(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
 
 		if (!result.hasErrors()) {
 			clienteService.newCliente(cliente);
+			return "redirect:/cliente";
 		}
 
-		return new RedirectView("/cliente") ;
-
+		return "clientes/crearCliente";
 	}
 
 	@GetMapping("/cliente/editar/{id}")
@@ -66,26 +65,27 @@ public class ClienteController {
 		Cliente cliente = clienteService.one(id);
 		model.addAttribute("cliente", cliente);
 
-		return "editarCliente";
+		return "clientes/editarCliente";
 
 	}
 
 
 	@PostMapping("/cliente/editar/{id}")
-	public RedirectView submitEditar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
+	public String submitEditar(@Valid @ModelAttribute("cliente") Cliente cliente, BindingResult result) {
 
 		if (!result.hasErrors()) {
 			clienteService.replaceCliente(cliente);
+			return "redirect:/cliente";
 		}
 
-		return new RedirectView("/cliente");
+		return "clientes/editarCliente";
 	}
 
 	@PostMapping("/cliente/borrar/{id}")
-	public RedirectView submitBorrar(@PathVariable Integer id) {
+	public String submitBorrar(@PathVariable Integer id) {
 
 		clienteService.deletecliente(id);
 
-		return new RedirectView("/cliente");
+		return "redirect:/cliente";
 	}
 }
