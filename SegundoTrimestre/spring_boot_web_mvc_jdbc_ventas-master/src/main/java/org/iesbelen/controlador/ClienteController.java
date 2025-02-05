@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.validation.Valid;
 import org.iesbelen.modelo.Cliente;
 import org.iesbelen.service.ClienteService;
+import org.iesbelen.validator.MiExcepcion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,4 +89,5 @@ public class ClienteController {
 
 		return "redirect:/cliente";
 	}
+
 }

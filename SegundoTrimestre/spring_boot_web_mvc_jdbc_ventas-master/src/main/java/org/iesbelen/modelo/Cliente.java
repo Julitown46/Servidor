@@ -4,6 +4,8 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.iesbelen.validator.RangoCategoriaPlusValidation;
+import org.iesbelen.validator.RangoCategoriaValidation;
 
 @Data
 @AllArgsConstructor
@@ -29,8 +31,7 @@ public class Cliente {
 	private String ciudad;
 
 	@NotNull(message = "Por favor, introduzca categoria.")
-	@Min(value=100, message = "Salario debe ser al menos de 100.")
-	@Max(value=1000, message = "Salario no debe ser mayor de 1000.")
+	@RangoCategoriaValidation
 	private int categoria;
 
 //	@Email(message = "Formato de email incorrecto", regexp="^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]+\\.[a-zA-Z.]{2,5}")
