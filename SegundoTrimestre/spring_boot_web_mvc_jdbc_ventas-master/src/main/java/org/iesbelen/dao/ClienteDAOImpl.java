@@ -69,16 +69,26 @@ public class ClienteDAOImpl implements ClienteDAO {
 	@Override
 	public List<Cliente> getAll() {
 		
-		List<Cliente> listFab = jdbcTemplate.query(
-                "SELECT * FROM cliente",
-                (rs, rowNum) -> new Cliente(rs.getInt("id"),
-                						 	rs.getString("nombre"),
-                						 	rs.getString("apellido1"),
-                						 	rs.getString("apellido2"),
-                						 	rs.getString("ciudad"),
-                						 	rs.getInt("categoría")
-                						 	)
-        );
+//		List<Cliente> listFab = jdbcTemplate.query(
+//                "SELECT * FROM cliente",
+//                (rs, rowNum) -> new Cliente(rs.getInt("id"),
+//                						 	rs.getString("nombre"),
+//                						 	rs.getString("apellido1"),
+//                						 	rs.getString("apellido2"),
+//                						 	rs.getString("ciudad"),
+//                						 	rs.getInt("categoría")
+//                						 	)
+//        );
+
+		List<Cliente> listFab = jdbcTemplate.query("SELECT * FROM cliente",
+				(rs, rowNum) -> Cliente.builder()
+						.id(rs.getInt("id"))
+						.nombre(rs.getString("nombre"))
+						.apellido1(rs.getString("apellido1"))
+						.apellido2(rs.getString("apellido2"))
+						.ciudad(rs.getString("ciudad"))
+						.categoria(rs.getInt("categoría"))
+						.build());
 		
 		log.info("Devueltos {} registros.", listFab.size());
 		
@@ -91,17 +101,28 @@ public class ClienteDAOImpl implements ClienteDAO {
 	@Override
 	public Optional<Cliente> find(int id) {
 		
-		Cliente fab =  jdbcTemplate
-				.queryForObject("SELECT * FROM cliente WHERE id = ?"														
-								, (rs, rowNum) -> new Cliente(rs.getInt("id"),
-            						 						rs.getString("nombre"),
-            						 						rs.getString("apellido1"),
-            						 						rs.getString("apellido2"),
-            						 						rs.getString("ciudad"),
-            						 						rs.getInt("categoría")) 
-								, id
-								);
-		
+//		Cliente fab =  jdbcTemplate
+//				.queryForObject("SELECT * FROM cliente WHERE id = ?"
+//								, (rs, rowNum) -> new Cliente(rs.getInt("id"),
+//            						 						rs.getString("nombre"),
+//            						 						rs.getString("apellido1"),
+//            						 						rs.getString("apellido2"),
+//            						 						rs.getString("ciudad"),
+//            						 						rs.getInt("categoría"))
+//								, id
+//								);
+
+		Cliente fab = jdbcTemplate.queryForObject("SELECT * FROM cliente WHERE id = ?"
+		, (rs, rowNum) -> Cliente.builder()
+						.id(rs.getInt("id"))
+						.nombre(rs.getString("nombre"))
+						.apellido1(rs.getString("apellido1"))
+						.apellido2(rs.getString("apellido2"))
+						.ciudad(rs.getString("ciudad"))
+						.categoria(rs.getInt("categoría"))
+						.build()
+		, id);
+
 		if (fab != null) { 
 			return Optional.of(fab);}
 		else { 

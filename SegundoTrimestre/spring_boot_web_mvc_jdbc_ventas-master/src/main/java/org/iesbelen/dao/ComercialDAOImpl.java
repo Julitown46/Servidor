@@ -54,15 +54,23 @@ public class ComercialDAOImpl implements ComercialDAO {
 	@Override
 	public List<Comercial> getAll() {
 		
-		List<Comercial> listComercial = jdbcTemplate.query(
-                "SELECT * FROM comercial",
-                (rs, rowNum) -> new Comercial(rs.getInt("id"), 
-                							  rs.getString("nombre"), 
-                							  rs.getString("apellido1"),
-                							  rs.getString("apellido2"), 
-                							  rs.getBigDecimal("comisión"))
-                						 	
-        );
+//		List<Comercial> listComercial = jdbcTemplate.query(
+//                "SELECT * FROM comercial",
+//                (rs, rowNum) -> new Comercial(rs.getInt("id"),
+//                							  rs.getString("nombre"),
+//                							  rs.getString("apellido1"),
+//                							  rs.getString("apellido2"),
+//                							  rs.getBigDecimal("comisión"))
+//
+//        );
+
+		List<Comercial> listComercial = jdbcTemplate.query("SELECT * FROM comercial",
+				(rs, rowNum) -> Comercial.builder().id(rs.getInt("id"))
+						.nombre(rs.getString("nombre"))
+						.apellido1(rs.getString("apellido1"))
+						.apellido2(rs.getString("apellido2"))
+						.comision(rs.getBigDecimal("comisión"))
+						.build());
 		
 		log.info("Devueltos {} registros.", listComercial.size());
 		
@@ -71,14 +79,27 @@ public class ComercialDAOImpl implements ComercialDAO {
 
 	@Override
 	public Optional<Comercial> find(int id) {
+
+//		Comercial com =  jdbcTemplate
+//				.queryForObject("SELECT * FROM comercial WHERE id = ?"
+//						, (rs, rowNum) -> new Comercial(rs.getInt("id"),
+//								rs.getString("nombre"),
+//								rs.getString("apellido1"),
+//								rs.getString("apellido2"),
+//								rs.getBigDecimal("comisión"))
+//						, id
+//				);
+
 		Comercial com =  jdbcTemplate
 				.queryForObject("SELECT * FROM comercial WHERE id = ?"
-						, (rs, rowNum) -> new Comercial(rs.getInt("id"),
-								rs.getString("nombre"),
-								rs.getString("apellido1"),
-								rs.getString("apellido2"),
-								rs.getBigDecimal("comisión"))
-						, id
+						, (rs, rowNum) -> Comercial.builder()
+								.id(rs.getInt("id"))
+								.nombre(rs.getString("nombre"))
+								.apellido1(rs.getString("apellido1"))
+								.apellido2(rs.getString("apellido2"))
+								.comision(rs.getBigDecimal("comisión"))
+								.build()
+				, id
 				);
 
 		if (com != null) {
