@@ -93,4 +93,23 @@ public class PeliculaService {
         return response;
     }
 
+    public List<Pelicula> findAllOrderByCol(String[] orden) {
+        return this.peliculaCustomRepository.pelisOrderbyCols(Optional.of(orden));
+    }
+
+    public Map<String, Object> all(String[] paginacion) {
+        Pageable paginado = PageRequest.of(Integer.parseInt(paginacion[0]),Integer.parseInt(paginacion[1]), Sort.by("idPelicula").ascending());
+
+        Page<Pelicula> pageAll = this.peliculaRepository.findAll(paginado);
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("peliculas", pageAll.getContent());
+        response.put("currentPage", pageAll.getNumber());
+        response.put("totalItems", pageAll.getTotalElements());
+        response.put("totalPages", pageAll.getTotalPages());
+
+        return response;
+    }
+
 }

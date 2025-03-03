@@ -53,6 +53,24 @@ public class PeliculaController {
         return ResponseEntity.ok(responseAll);
     }
 
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!paginado"})
+    public ResponseEntity<List<Pelicula>> allbyColumn(@RequestParam(value = "orden", required = false) String[] orden) {
+        log.info("Accediendo a todas las películas con ordenación por columnas: " + orden[0]);
+
+        List<Pelicula> peliculas = this.peliculaService.findAllOrderByCol(orden);
+
+        return ResponseEntity.ok(peliculas);
+    }
+
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!orden"})
+    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "paginado", defaultValue = "0") String[] paginacion) {
+        log.info("Accediendo a todas las películas con paginación");
+
+        Map<String, Object> responseAll = this.peliculaService.all(paginacion);
+
+        return ResponseEntity.ok(responseAll);
+    }
+
     @PostMapping({"","/"})
     public Pelicula newPelicula(@RequestBody Pelicula pelicula) {
         return this.peliculaService.save(pelicula);
