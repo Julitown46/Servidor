@@ -39,25 +39,25 @@ public class PeliculaCustomRepositoryJPQLImpl implements PeliculaCustomRepositor
         return query.getResultList();
     }
 
-    @Override
-    public List<Pelicula> pelisOrderbyCols(Optional<String[]> orden) {
-        StringBuilder queryBuilder = new StringBuilder("SELECT p FROM Pelicula p");
-
-        if (orden.isPresent()) {
-            String[] ordenes = orden.get();
-            List<String> criteriosOrden = new ArrayList<>();
-
-            for (String ordenStr : ordenes) {
-                String[] partes = ordenStr.split(",");
-                String columna = partes[0].trim();
-                String direccion = partes[1].trim().equalsIgnoreCase("desc") ? "DESC" : "ASC";
-                criteriosOrden.add("p." + columna + " " + direccion);
-            }
-
-            if (!criteriosOrden.isEmpty()) {
-                queryBuilder.append(" ORDER BY ").append(String.join(", ", criteriosOrden));
-            }
-        }
-        return em.createQuery(queryBuilder.toString(), Pelicula.class).getResultList();
-    }
+//    @Override
+//    public List<Pelicula> pelisOrderbyCols(Optional<String[]> orden) {
+//        StringBuilder queryBuilder = new StringBuilder("SELECT p FROM Pelicula p");
+//
+//        if (orden.isPresent()) {
+//            String[] ordenes = orden.get();
+//            List<String> criteriosOrden = new ArrayList<>();
+//
+//            for (String ordenStr : ordenes) {
+//                String[] partes = ordenStr.split(",");
+//                String columna = partes[0].trim();
+//                String direccion = partes[1].trim().equalsIgnoreCase("desc") ? "DESC" : "ASC";
+//                criteriosOrden.add("p." + columna + " " + direccion);
+//            }
+//
+//            if (!criteriosOrden.isEmpty()) {
+//                queryBuilder.append(" ORDER BY ").append(String.join(", ", criteriosOrden));
+//            }
+//        }
+//        return em.createQuery(queryBuilder.toString(), Pelicula.class).getResultList();
+//    }
 }

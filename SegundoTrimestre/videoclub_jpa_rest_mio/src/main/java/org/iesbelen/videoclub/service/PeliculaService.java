@@ -64,10 +64,6 @@ public class PeliculaService {
         return this.peliculaRepository.findAllByOrderByTituloAsc();
     }
 
-    public List<Pelicula> findAllByQueryFilters(Optional<String> buscarOptional, Optional<String> ordenarOptional) {
-        return this.peliculaCustomRepository.queryCustomPelicula(buscarOptional, ordenarOptional);
-    }
-
     public Pelicula addCategoria(Long id, Long idCategoria) {
         Pelicula pelicula = one(id);
         Categoria categoria = categoriaService.one(idCategoria);
@@ -93,8 +89,22 @@ public class PeliculaService {
         return response;
     }
 
-    public List<Pelicula> findAllOrderByCol(String[] orden) {
-        return this.peliculaCustomRepository.pelisOrderbyCols(Optional.of(orden));
+//    public List<Pelicula> findAllOrderByCol(String[] orden) {
+//        return this.peliculaCustomRepository.pelisOrderbyCols(Optional.of(orden));
+//    }
+
+    public List<Pelicula> allbyColumn(String[] orden) {
+        Sort sort = null;
+        if (orden != null && orden.length == 2) {
+            String columna = orden[0];
+            String sentido = orden[1];
+            if("asc".equalsIgnoreCase(sentido)){
+                sort = Sort.by(columna).ascending();
+            } else {
+                sort = Sort.by(columna).descending();
+            }
+        }
+        return peliculaRepository.findAll(sort);
     }
 
     public Map<String, Object> all(String[] paginacion) {
