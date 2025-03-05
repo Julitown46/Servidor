@@ -35,8 +35,18 @@ public class PeliculaController {
         return this.peliculaService.findAllByOrderByTituloAsc();
     }
 
+    //Paginar con array
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!orden", "!pagina", "!tamanio"})
+    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "paginado", defaultValue = "0") String[] paginacion) {
+        log.info("Accediendo a todas las películas con paginación");
+
+        Map<String, Object> responseAll = this.peliculaService.all(Integer.parseInt(paginacion[0]), Integer.parseInt(paginacion[1]));
+
+        return ResponseEntity.ok(responseAll);
+    }
+
     //Paginar sin array
-    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar"})
+    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!paginado"})
     public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "pagina", defaultValue = "0") int pagina,
                                                    @RequestParam(value = "tamanio", defaultValue = "3") int tamanio) {
         log.info("Accediendo a todas las películas con paginación");
@@ -62,16 +72,6 @@ public class PeliculaController {
 
         List<Pelicula> peliculas = this.peliculaService.allbyColumn(orden);
         return ResponseEntity.ok(peliculas);
-    }
-
-    //Paginar con array
-    @GetMapping(value = {"","/"}, params = {"!buscar", "!ordenar", "!orden"})
-    public ResponseEntity<Map<String, Object>> all(@RequestParam(value = "paginado", defaultValue = "0") String[] paginacion) {
-        log.info("Accediendo a todas las películas con paginación");
-
-        Map<String, Object> responseAll = this.peliculaService.all(paginacion);
-
-        return ResponseEntity.ok(responseAll);
     }
 
     @PostMapping({"","/"})
