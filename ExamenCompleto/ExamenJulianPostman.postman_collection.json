@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "8959828f-7f98-47f8-9b3f-3afd81019798",
+		"name": "ExamenJulianPostman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39764433"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productos/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Bocata Lomo\",\r\n    \"descrip\":\"bocatita rico\",\r\n    \"image\":\"no hay\",\r\n    \"price\":3.13,\r\n    \"quantity\":2,\r\n    \"category\":{\"idCategory\":3}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/productos",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Fairy\",\r\n    \"descrip\":\"limpia cosas o eso dicen\",\r\n    \"image\":\"no hay\",\r\n    \"price\":2.13,\r\n    \"quantity\":3,\r\n    \"category\":{\"idCategory\":1}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/productos/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productos/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productos?buscar=dagtveea,co",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "buscar",
+									"value": "dagtveea,co"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "paginado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/productos?pagina=0&tamano=3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "pagina",
+									"value": "0"
+								},
+								{
+									"key": "tamano",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ordenar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/productos?ordenar=price,desc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"productos"
+							],
+							"query": [
+								{
+									"key": "ordenar",
+									"value": "price,desc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
