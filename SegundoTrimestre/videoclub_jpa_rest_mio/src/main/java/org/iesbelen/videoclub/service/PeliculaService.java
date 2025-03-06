@@ -1,5 +1,6 @@
 package org.iesbelen.videoclub.service;
 
+import org.iesbelen.videoclub.domain.Actor;
 import org.iesbelen.videoclub.domain.Categoria;
 import org.iesbelen.videoclub.exception.PeliculaNotFoundException;
 import org.iesbelen.videoclub.repository.PeliculaCustomRepository;
@@ -27,6 +28,9 @@ public class PeliculaService {
 
     @Autowired
     private CategoriaService categoriaService;
+
+    @Autowired
+    private ActorService actorService;
 
     public PeliculaService(PeliculaRepository peliculaRepository) {
 
@@ -70,6 +74,16 @@ public class PeliculaService {
 
         pelicula.getCategorias().add(categoria);
         categoria.getPeliculas().add(pelicula);
+
+        return save(pelicula);
+    }
+
+    public Pelicula addActor(Long id, Long idActor) {
+        Pelicula pelicula = one(id);
+        Actor actor = actorService.one(idActor);
+
+        pelicula.getActores().add(actor);
+        actor.getPeliculas().add(pelicula);
 
         return save(pelicula);
     }

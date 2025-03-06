@@ -100,4 +100,9 @@ public class PeliculaController {
     public Pelicula addCategoria(@PathVariable("id") Long id, @PathVariable("id_categoria") Long idCategoria) {
         return this.peliculaService.addCategoria(id, idCategoria);
     }
+
+    @PostMapping("/{id}/addActor/{id_actor}")
+    public Pelicula addActor(@PathVariable("id") Long id, @PathVariable("id_actor") Long idActor) {
+        return this.peliculaService.addActor(id, idActor);
+    }
 }
